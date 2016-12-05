@@ -1,0 +1,28 @@
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>错误页面</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<body>
+<!-- page 容器 -->
+<div class="content-padded">
+  <div class="content">
+    <div class="content-block" align="center">
+      <h1>get error! T_T</h1>
+      <p>${(errorInfo)!''}</p>
+    </div>
+    <#if url?exists>
+      <div class="content-block">
+        <a href="${url}" class="button button-big external" style="max-width: 13rem;margin: 0 auto;">${(btnText)!'返回'}</a>
+      </div>
+    </#if>
+  </div>
+</div>
+</body>
+</html>
+
+

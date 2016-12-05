@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration debug="true">
+
+    <!-- 控制台输出 -->
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%p] [%c] [%X{userName}] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+        </filter>
+    </appender>
+
+    <!-- 系统启动日志输出文件 -->
+    <appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="logs/system.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%p] [%c] [%X{userName}] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+        </filter>
+    </appender>
+
+    <!-- 异常日志 -->
+    <appender name="errorAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="logs/error.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout  class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d][%X{userIP}][%X{userName}] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="ERROR" />
+            <param name="LevelMax" value="FATAL" />
+        </filter>
+    </appender>
+
+    <!-- debug日志输出文件 -->
+    <appender name="debugAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="logs/debug.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout  class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d][%X{userIP}][%X{userName}] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+            <param name="LevelMax" value="FATAL" />
+        </filter>
+    </appender>
+
+    <!--登录模块 appender -->
+    <appender name="loginAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="logs/login.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout  class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d][%X{userIP}] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+        </filter>
+    </appender>
+
+    <!-- 需要报警的订单外的错误 appender -->
+    <appender name="alarmAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="logs/alarm.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM"/>
+        <layout  class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d][%X{userIP}] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+        </filter>
+    </appender>
+
+    <!-- 合作方通信 appender -->
+    <appender name="inOutAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="logs/inout.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM"/>
+        <layout  class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d][%X{userIP}] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+        </filter>
+    </appender>
+
+    <appender name="sqlStatInterceptorAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="logs/sqlstat.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM"/>
+        <layout  class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%p] [%c] - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+        </filter>
+    </appender>
+
+    <!-- sql统计拦截器 -->
+    <logger name="sqlStatLogger" additivity="false" >
+        <level value="INFO"/>
+        <appender-ref ref="sqlStatInterceptorAppender"/>
+    </logger>
+
+    <!-- errorLogger -->
+    <logger name="errorLogger" additivity="false">
+        <level value="ERROR"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorAppender" />
+    </logger>
+
+    <!-- debugLogger -->
+    <logger name="debugLogger" additivity="false">
+        <!--开发环境、测试环境下，可以将value设为DEBUG -->
+        <level value="INFO"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="debugAppender"/>
+    </logger>
+
+    <!-- 需要报警的订单外的错误logger -->
+    <logger name="alarmLogger" additivity="false">
+        <!--开发环境、测试环境下，可以将value设为DEBUG -->
+        <level value="INFO"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="alarmAppender"/>
+    </logger>
+
+    <logger name="java.sql" additivity="true">
+        <level value="INFO" />
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="debugAppender" />
+    </logger>
+
+    <logger name="com.mybatis" additivity="true">
+        <level value="INFO" />
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="debugAppender" />
+    </logger>
+
+
+    <logger name="inOutLogger" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="inOutAppender" />
+    </logger>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="fileAppender"/>
+    </root>
+</log4j:configuration>
