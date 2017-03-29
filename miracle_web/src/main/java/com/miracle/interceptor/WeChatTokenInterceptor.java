@@ -21,7 +21,8 @@ public class WeChatTokenInterceptor extends HandlerInterceptorAdapter {
     String signature = request.getParameter("signature");
     String timestamp = request.getParameter("timestamp");
     String nonce = request.getParameter("nonce");
-    return StringUtils.equalsIgnoreCase(signature, getSignature(timestamp, nonce));
+//    return StringUtils.equalsIgnoreCase(signature, getSignature(timestamp, nonce));
+    return true;
   }
 
   /**

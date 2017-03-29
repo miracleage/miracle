@@ -9,24 +9,25 @@
                         http://www.springframework.org/schema/context
                         http://www.springframework.org/schema/context/spring-context-4.2.xsd
                         http://www.springframework.org/schema/mvc
-                        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
     <!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
     <context:component-scan base-package="com.miracle.controller"/>
 
     <!--全局异常处理的拦截器-->
     <bean class="com.miracle.handler.ExceptionHandler"/>
-
+    <aop:aspectj-autoproxy/>
     <mvc:interceptors>
         <!--处理token的拦截器-->
         <bean class="com.miracle.interceptor.WeChatTokenInterceptor"/>
     </mvc:interceptors>
 
     <context:property-placeholder location="classpath*:*.properties"/>
-
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl/" />
         <property name="defaultEncoding" value="UTF-8" />

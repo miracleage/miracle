@@ -63,8 +63,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <!-- 指定范围，在测试时才会加载 -->
-            <scope>test</scope>
         </dependency>
 
         <!-- 添加spring核心依赖 -->
